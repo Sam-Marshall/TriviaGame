@@ -232,12 +232,15 @@ window.onload = function(){
 			clearInterval(intervalID);			
 
 	}
+
+	//Show the User their result (either right or wrong per question) or the final tally
 			
 	function informationScreen(){
 				
 			$entireTriviaContents.css('display', 'none');
 			$hiddenStuff.css('display', 'block');				
 			
+			//show if game is over
 			if (gameOver === true){
 
 				checkWizardLevel();
@@ -269,7 +272,7 @@ window.onload = function(){
 					timerCountDown();
 				});
 			}
-
+			//show result of question answered
 			else if (gameOver === false){
 
 				$mainImage.attr('src', questionArray[questionCounter-1].ImageLocation);
@@ -280,6 +283,7 @@ window.onload = function(){
 			}		
 
 	}
+	
 	function checkWizardLevel(){
 		if (questionsCorrect >= 9){
 			$messageOut.html("Result: Fully Trained Witch/Wizard<br><h4>You sure know your stuff! Great Job!</h4>");
