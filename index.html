@@ -1,0 +1,233 @@
+<!-- You'll create a trivia form with multiple choice or true/false options (your choice).
+The player will have a limited amount of time to finish the quiz.
+The game ends when the time runs out. The page will reveal the number of questions that players answer correctly and incorrectly.
+Don't let the player pick more than one answer per question.
+Don't forget to include a countdown timer. -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Harry Potter Trivia</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">	
+	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script type="text/javascript" src="./assets/javascript/app.js"></script>
+</head>
+<body>
+	<div class="container">
+		
+		<div class="jumbotron text-center"> 
+			<h1>Harry Potter Trivia</h1>
+		</div>
+		
+		<div id="entireTriviaContents">
+			
+			<div id="timer" class="text-center"><h2>15 Seconds</h2></div>
+			<div id="questionCounter" class="text-center"><h2>Question 1</h2></div>
+			<div class="row">
+				<div id="nextQuestion" class="center-block col-sm-12 text-center">
+					<h2>Question</h2>
+				</div>
+			</div>
+			
+			<form id="triviaForm">
+				<div class="row">
+					<div class="col-sm-6 text-center">
+						<div>
+							<input type="radio" name="option" class="option" value="A">
+								<span id="optionOne"><h3>Answer 1</h3></span>
+						</div>
+					</div>
+					<div class="col-sm-6 text-center">
+						<div>
+							<input type="radio" name="option" class="option" value="B">
+								<span id="optionTwo"><h3>Answer 2</h3></span>
+						</div>
+					</div>
+				</div>
+					<div class="row">
+					<div class="col-sm-6 text-center">
+						<div>
+							<input type="radio" name="option" class="option" value="C">
+								<span id="optionThree"><h3>Answer 3</h3></span>
+						</div>
+					</div>
+					<div class="col-sm-6 text-center">
+						<div>
+							<input type="radio" name="option" class="option" value="D">
+								<span id="optionFour"><h3>Answer 4</h3></span>
+						</div>
+					</div>
+					<div class="col-sm-12 text-center">
+						<div id="submitButton">
+							<button class="btn btn-success btn-lg">Submit</button>
+						</div>
+					</div>
+					<div class="col-sm-12 text-center">
+						<div id="showResults">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>	
+	</div>
+	<script type="text/javascript">
+
+		window.onload = function(){
+			
+			var $submitButton = $("#submitButton");
+			var $nextQuestion = $("#nextQuestion");
+			var $showResults = $("#showResults");
+			var $triviaForm = $("#triviaForm");
+			var $questionCounter = $("#questionCounter");
+			var $optionOne = $("#optionOne");
+			var $optionTwo = $("#optionTwo");
+			var $optionThree = $("#optionThree");
+			var $optionFour = $("#optionFour");
+
+			var correctAnswer = "";
+			var userGuess = " ";
+			var answerText = "";
+			var checkIfCorrect = false;
+			var questionNumber = 0;
+			var totalQuestions = 2;
+			var questionsCorrect = 0;
+			var questionsIncorrect = 0;
+			var timerCount = 15;
+			var intervalID;
+			var questionCounter = 1;
+
+			var questionArray = [
+				
+				{	"Option" : 1,
+					"Answer" : "A",
+					"OptionOne" : "Testing 1",
+					"OptionTwo" : "Testing 2",
+					"OptionThree" : "Testing 3",
+					"OptionFour" : "Testing 4",
+					"Question" : "What is something cool?",
+					"AnswerText" : "I am the first right answer"}
+				,
+
+				{	"Option" : 2,
+					"Answer" : "B",
+					"OptionOne" : "Testing 11",
+					"OptionTwo" : "Testing 22",
+					"OptionThree" : "Testing 33",
+					"OptionFour" : "Testing 44",					
+					"Question" : "What is something else cool?",
+					"AnswerText" : "I am the second right answer"}
+
+			];
+
+			function getNewQuestion(){
+
+				$triviaForm.each(function(){
+					this.reset();
+				});
+
+				userGuess = "";
+
+				questionNumber = Math.floor(Math.random() * totalQuestions + 1);				
+				for (var i  = 0; i < totalQuestions; i++){
+					if (questionNumber === questionArray[i].Option){
+						$nextQuestion.html("<h2>" + questionArray[i].Question + "</h2>");
+						console.log(questionArray[i]);
+						correctAnswer = questionArray[i].Answer;
+						answerText = questionArray[i].AnswerText;
+						$optionOne.html(questionArray[i].OptionOne);
+						$optionTwo.html(questionArray[i].OptionTwo);
+						$optionThree.html(questionArray[i].OptionThree);
+						$optionFour.html(questionArray[i].OptionFour);
+						// console.log("Correct: " + correctAnswer);
+					}
+				}
+			}
+
+			function timerCountDown(){
+				intervalID = setInterval(decrement, 1000);
+			}
+
+			function decrement() {
+
+				timerCount -- ;
+
+				$("#timer").html("<h2>" + timerCount + " Seconds</h2>");
+
+				if (timerCount === 0) {
+
+					stopTimer();
+					questionsIncorrect += 1;
+					console.log("Question Number: " + questionCounter);
+					console.log("User Input: " + userGuess);
+					console.log("Correct Answer: " + correctAnswer);
+					console.log("Questions Correct: " + questionsCorrect);
+					console.log("Questions Incorrect: " + questionsIncorrect);					
+					questionCounter += 1;
+					$questionCounter.html("<h2>Question " + questionCounter + "</h2");
+					getNewQuestion();
+					timerCount = 15;
+					timerCountDown();
+			      
+			      }
+
+			}
+
+			function stopTimer(){
+				clearInterval(intervalID);			
+
+			}
+
+			getNewQuestion();
+			timerCountDown();
+
+				$submitButton.on('click', function(){
+					
+						event.preventDefault();				
+						
+						userGuess = ($(".option:checked").val());
+						
+						if (userGuess !== undefined){
+							
+							console.log("Question Number: " + questionCounter);
+							console.log("User Input: " + userGuess);
+							console.log("Correct Answer: " + correctAnswer);
+
+							if (correctAnswer === userGuess){
+								questionsCorrect += 1;
+								questionCounter += 1;
+								$questionCounter.html("<h2>Question " + questionCounter + "</h2");
+								$showResults.html("Correct!");
+								stopTimer();
+							}
+
+							else{
+								questionsIncorrect += 1;
+								questionCounter += 1;
+								$questionCounter.html("<h2>Question " + questionCounter + "</h2");
+								$showResults.html("Nope! The correct answer was " + answerText);
+								stopTimer();	
+							}
+
+							console.log("Questions Correct: " + questionsCorrect);
+							console.log("Questions Incorrect: " + questionsIncorrect);
+							timerCount = 15;
+							getNewQuestion();
+							timerCountDown();
+			
+						
+						// timerCount = 15;
+						// getNewQuestion();
+						// timerCountDown();
+
+
+				}
+		});
+
+
+		}
+
+	</script>
+
+</body>
+</html>

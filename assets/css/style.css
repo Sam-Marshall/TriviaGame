@@ -1,0 +1,43 @@
+*{
+	box-sizing: border-box;
+}
+
+@font-face {
+  font-family: HARRP___;
+  src: local("HARRP___"),
+       url(HARRP___.TTF);
+}
+body{
+	margin: 15px;
+	background-image: url('../images/potterCastle2.jpg');
+	background-size: cover;	
+	color: #DAA520;
+}
+.jumbotron{
+	background-color: black;
+	font-family: HARRP___ !important;
+	border-radius: 20px !important;
+}
+#nextQuestion{
+	background-color: black;
+	display: block;
+	border-radius: 20px !important;	
+	padding: 15px;
+	opacity: 0.9;	
+}
+#optionOne, #optionTwo, #optionThree, #optionFour{
+	background-color: black;
+	border-radius: 20px !important;
+	padding: 10px;	
+	opacity: 0.9;
+	margin: 10px;
+}
+span{
+	margin: 10px;
+}
+#timer, #questionCounter{
+	background-color: black;
+	box-sizing: border-box;
+/*	padding: 1px;	*/
+	opacity: 0.9;	
+}
