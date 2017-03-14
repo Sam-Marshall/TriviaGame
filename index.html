@@ -13,26 +13,37 @@
 		<div class="jumbotron text-center"> 
 			<h1>Harry Potter Trivia</h1>
 		</div>
-		
-		
+
+		<audio loop id="hpSong" autoplay="autoplay" src="#"></audio>
+
 			<div class="row">
 				<div class="col-sm-6 text-center">
-					<div id="questionCounter" class="text-center"><h2>Question 1</h2></div>
+					<div id="questionCounterDiv" class="text-center"><h3 id="questionCounter">Question 1</h3></div>
 				</div>	
 				<div class="col-sm-6 text-center">
-					<div id="timer"><h2>Time Remaining: 20 Seconds</h2></div>
+					<div id="timerDiv"><h3 id="timer">Time Remaining: 20 Seconds</h3></div>
 				</div>	
 
 			</div>
 			
 			<div id="hiddenStuff" class="text-center">
-				<img src="./assets/images/endGame.gif">
-			</div>			
+				<h2 class="messageOut"></h2>
+				<img src="" id="mainImage">
+				<h4 class="correctAnswers"></h4>
+				<h4 class="incorrectAnswers"></h4>
+				<span class="buttonHere"></span>
+			</div>	
+
+			<div id="startButtonDiv" class="center-block text-center">
+				<h1>Harry's a Wizard, Are You?</h1>
+				<img src="./assets/images/startingGif.gif">
+				<button id="startButton" class="btn btn-lg center-block">Find Out</button>
+			</div>		
 		
 		<div id="entireTriviaContents">		
 			<div class="row">
-				<div id="nextQuestion" class="center-block col-sm-12 text-center">
-					<h2>Question</h2>
+				<div id="nextQuestionDiv" class="center-block col-sm-12 text-center">
+					<h2 id="nextQuestion">Question</h2>
 				</div>
 			</div>
 
@@ -67,7 +78,7 @@
 					</div>
 					<div class="col-sm-12 text-center">
 						<div id="submitButton">
-							<button class="btn btn-success btn-lg">Submit</button>
+							<button class="btn btn-lg">Submit</button>
 						</div>
 					</div>
 					<div class="col-sm-12 text-center">
@@ -78,223 +89,5 @@
 			</form>
 		</div>	
 	</div>
-	<script type="text/javascript">
-
-		window.onload = function(){
-			
-			var $submitButton = $("#submitButton");
-			var $nextQuestion = $("#nextQuestion");
-			var $showResults = $("#showResults");
-			var $triviaForm = $("#triviaForm");
-			var $questionCounter = $("#questionCounter");
-			var $optionOne = $("#optionOne");
-			var $optionTwo = $("#optionTwo");
-			var $optionThree = $("#optionThree");
-			var $optionFour = $("#optionFour");
-			var $hiddenStuff = $("#hiddenStuff");
-
-			var correctAnswer = "";
-			var userGuess = "";
-			var answerText = "";
-			var questionNumber = 4;
-			var questionsCorrect = 0;
-			var questionsIncorrect = 0;
-			var timerCount = 20;
-			var timerResetValue = 20;
-			var intervalID;
-			var questionCounter = 0;
-
-			var questionArray = [
-				
-				{	"Option" : 1,
-					"Answer" : "A",
-					"OptionOne" : "He eats Gillyweed",
-					"OptionTwo" : "He transfigures into a shark",
-					"OptionThree" : "He performs a bubble-head charm",
-					"OptionFour" : "He kisses a mermaid",
-					"Question" : "How does Harry manage to breathe underwater during the second task of the Triwizard Tournament?",
-					"AnswerText" : "The correct answer was: A. He eats Gillyweed"}
-				,
-
-				{	"Option" : 2,
-					"Answer" : "B",
-					"OptionOne" : "Avada Kedavra",
-					"OptionTwo" : "Sectumsempra",
-					"OptionThree" : "Cruciatus Curse",
-					"OptionFour" : "Imperius Curse",					
-					"Question" : "Which of these is NOT one of the Unforgivable Curses?",
-					"AnswerText" : "The correct answer was: B. Sectumsempra is not one of the Unforgivable Curses"}
-				,
-
-				{	"Option" : 3,
-					"Answer" : "D",
-					"OptionOne" : "The Grey Lady",
-					"OptionTwo" : "The Fat Friar",
-					"OptionThree" : "The Bloody Baron",
-					"OptionFour" : "The Fat Lady",					
-					"Question" : "Who guards the entrance to the Gryffindor common room?",
-					"AnswerText" : "The correct answer was: D. The Fat Lady guards the entrance to the Gryffindor common room"}	
-				,
-
-				{	"Option" : 4,
-					"Answer" : "B",
-					"OptionOne" : "Mad-Eye Moody",
-					"OptionTwo" : "Cornelius Fudge",
-					"OptionThree" : "Professor Snape",
-					"OptionFour" : "Remus Lupin",					
-					"Question" : "Who is NOT a member of the Order of the Phoenix?",
-					"AnswerText" : "The correct answer was: B. Cornelius Fudge is NOT a member of the Order of the Phoenix"}										
-
-			];
-
-			function getNewQuestion(){
-
-				$("#entireTriviaContents").css('display', 'block');
-				
-				$triviaForm.each(function(){
-					this.reset();
-				});				
-
-				if (questionCounter < questionNumber){
-
-				//clear form contents for new question
-
-
-				userGuess = "";
-
-				$nextQuestion.html("<h2>" + questionArray[questionCounter].Question + "</h2>");
-				$questionCounter.html("<h2>Question " + questionArray[questionCounter].Option + "</h2");
-				console.log(questionArray[questionCounter]);
-				correctAnswer = questionArray[questionCounter].Answer;
-				answerText = questionArray[questionCounter].AnswerText;
-				$optionOne.html(questionArray[questionCounter].OptionOne);
-				$optionTwo.html(questionArray[questionCounter].OptionTwo);
-				$optionThree.html(questionArray[questionCounter].OptionThree);
-				$optionFour.html(questionArray[questionCounter].OptionFour);
-			}
-			    else if (questionCounter === questionNumber)
-			    	{
-			    	stopTimer();
-			    	$("#entireTriviaContents").css('display', 'none');
-			    	// alert("Game Over!");
-			    	informationScreen();
-			    	}			
-			}
-
-			function timerCountDown(){
-				intervalID = setInterval(decrement, 1000);
-			}
-
-			function decrement() {
-
-				if (questionCounter < questionNumber){
-
-				timerCount -- ;
-
-				$("#timer").html("<h2>Time Remaining: " + timerCount + " Seconds</h2>");
-
-				if (timerCount === 0) {
-
-					stopTimer();
-					questionsIncorrect += 1;
-					console.log("Question Number: " + questionCounter);
-					console.log("User Input: " + userGuess);
-					console.log("Correct Answer: " + correctAnswer);
-					console.log("Questions Correct: " + questionsCorrect);
-					console.log("Questions Incorrect: " + questionsIncorrect);					
-					questionCounter += 1;
-					getNewQuestion();
-					timerCount = timerResetValue;
-					timerCountDown();
-			      
-			      }
-			  }
-			  else if (questionCounter === questionNumber){
-			  	stopTimer();
-			  }
-			   
-			}
-
-			function stopTimer(){
-				clearInterval(intervalID);			
-
-			}
-			function informationScreen(){
-
-				$("#entireTriviaContents").css('display', 'none');
-				$hiddenStuff.css('display', 'block');
-				
-				$hiddenStuff.prepend("<h3>Game Over!</h3>");
-				$hiddenStuff.append("<br>Correct Answers: " + questionsCorrect +
-					"<br>Incorrect Answers: " + questionsIncorrect);
-				
-				var a = $("<button> Reset </button>");
-				a.addClass("reset btn btn-lg btn-danger center-block");
-				$hiddenStuff.append(a);
-
-				$(".reset").on('click', function(){
-					event.preventDefault();
-					$("#entireTriviaContents").css('display', 'block');
-					correctAnswer = "";
-					userGuess = "";
-					answerText = "";
-					questionsCorrect = 0;
-					questionsIncorrect = 0;
-					timerCount = 20;
-					questionCounter = 0;
-					$hiddenStuff.css('display', 'none');
-					$showResults.empty();
-					getNewQuestion();
-					timerCountDown();
-			});
-
-			}
-
-			getNewQuestion();
-			timerCountDown();
-
-
-
-			$submitButton.on('click', function(){
-				
-					event.preventDefault();									
-					userGuess = ($(".option:checked").val());
-					
-					if (userGuess !== undefined){
-							
-						console.log("Question Number: " + questionCounter);
-						console.log("User Input: " + userGuess);
-						console.log("Correct Answer: " + correctAnswer);
-
-						if (correctAnswer === userGuess){
-							questionsCorrect += 1;
-							questionCounter += 1;
-							$showResults.html("You got it!! " + answerText);
-							stopTimer();			
-							}
-
-						else{
-							questionsIncorrect += 1;
-							questionCounter += 1;
-							$showResults.html("Nope! " + answerText);
-							stopTimer();	
-							}
-
-						console.log("Questions Correct: " + questionsCorrect);
-						console.log("Questions Incorrect: " + questionsIncorrect);
-						timerCount = timerResetValue;
-						// informationScreen();
-						getNewQuestion();
-						timerCountDown();
-
-
-				}
-		});
-
-
-		}
-
-	</script>
-
 </body>
 </html>

@@ -11,56 +11,74 @@ body{
 	margin: 15px;
 	background-image: url('../images/potterCastle2.jpg');
 	background-size: cover;	
+	font-family: HARRP___ !important;	
 	color: #DAA520;
 }
+.jumbotron, #nextQuestionDiv, #optionOne, #optionTwo, #optionThree, #optionFour, #timerDiv, #questionCounterDiv, #startButtonDiv, #hiddenStuff{
+	background-color: black;
+	border-radius: 15px !important;
+	opacity: 0.8;		
+}
 .jumbotron{
-	background-color: black;
-	font-family: HARRP___ !important;
-	border-radius: 20px !important;
-}
-#nextQuestion{
-	background-color: black;
-	display: block;
-	font-family: HARRP___ !important;	
-	border-radius: 20px !important;	
-	padding: 15px;
-	opacity: 0.9;	
-}
-#optionOne, #optionTwo, #optionThree, #optionFour{
-	background-color: black;
-	border-radius: 20px !important;
-	padding: 10px;	
-	opacity: 0.9;
-	margin: 10px;
-}
-input[type="radio"]{
-	margin: 20px;
-	padding: 2px
-}
-button{
-	margin: 10px;
+	display: none;
 }
 
-#timer, #questionCounter{
-	background-color: black;
-	box-sizing: border-box;
-	font-family: HARRP___ !important;
-	padding: 1px;
+#nextQuestionDiv{
+	display: block;
+	padding: 15px;	
+}
+#optionOne, #optionTwo, #optionThree, #optionFour{
+	padding: 10px;	
+	margin: 10px;
+	font-family: "Lucida Grande" !important;
+}
+input[type="radio"]{
+	margin: 25px;
+	padding: 2px
+}
+
+button{
+	margin: 15px;
+	background-color: #DAA520;
+	color: black;
+	font-size: 36px;
+}
+
+#timerDiv, #questionCounterDiv{
+	display: none;
+	padding: 5px;
 	margin: 5px;	
-	opacity: 0.9;
-	border-radius: 20px !important;	
 }
 
 #hiddenStuff{
 	display: none;
-	background-color: black;
 	padding: 1px;
 	margin: 5px;	
-	opacity: 0.9;
-	border-radius: 20px !important;	
-	font-family: HARRP___ !important;
 }
 #hiddenStuff img{
 	margin: 5px;
-	border-radius: 20px !important;	
+	border-radius: 15px !important;	
+	width: 65%;
+	height: auto;
+}
+#entireTriviaContents{
+	display: none;
+}
+
+#startButtonDiv{
+	width: 75%;
+	padding: 5px;
+	height: auto;
+	position: relative;	
+
+}
+#startButtonDiv img{
+	border-radius: 15px !important;	
+	margin: 5px;
+	width: 65%;
+}
+#startButton{
+	position: static;
+	margin: auto;
+	font-size: 36px;
 }
