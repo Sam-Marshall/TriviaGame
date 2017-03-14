@@ -21,6 +21,7 @@ body{
 #nextQuestion{
 	background-color: black;
 	display: block;
+	font-family: HARRP___ !important;	
 	border-radius: 20px !important;	
 	padding: 15px;
 	opacity: 0.9;	
@@ -32,12 +33,34 @@ body{
 	opacity: 0.9;
 	margin: 10px;
 }
-span{
+input[type="radio"]{
+	margin: 20px;
+	padding: 2px
+}
+button{
 	margin: 10px;
 }
+
 #timer, #questionCounter{
 	background-color: black;
 	box-sizing: border-box;
-/*	padding: 1px;	*/
-	opacity: 0.9;	
+	font-family: HARRP___ !important;
+	padding: 1px;
+	margin: 5px;	
+	opacity: 0.9;
+	border-radius: 20px !important;	
+}
+
+#hiddenStuff{
+	display: none;
+	background-color: black;
+	padding: 1px;
+	margin: 5px;	
+	opacity: 0.9;
+	border-radius: 20px !important;	
+	font-family: HARRP___ !important;
+}
+#hiddenStuff img{
+	margin: 5px;
+	border-radius: 20px !important;	
 }

@@ -1,9 +1,3 @@
-<!-- You'll create a trivia form with multiple choice or true/false options (your choice).
-The player will have a limited amount of time to finish the quiz.
-The game ends when the time runs out. The page will reveal the number of questions that players answer correctly and incorrectly.
-Don't let the player pick more than one answer per question.
-Don't forget to include a countdown timer. -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,15 +14,28 @@ Don't forget to include a countdown timer. -->
 			<h1>Harry Potter Trivia</h1>
 		</div>
 		
-		<div id="entireTriviaContents">
+		
+			<div class="row">
+				<div class="col-sm-6 text-center">
+					<div id="questionCounter" class="text-center"><h2>Question 1</h2></div>
+				</div>	
+				<div class="col-sm-6 text-center">
+					<div id="timer"><h2>Time Remaining: 20 Seconds</h2></div>
+				</div>	
+
+			</div>
 			
-			<div id="timer" class="text-center"><h2>15 Seconds</h2></div>
-			<div id="questionCounter" class="text-center"><h2>Question 1</h2></div>
+			<div id="hiddenStuff" class="text-center">
+				<img src="./assets/images/endGame.gif">
+			</div>			
+		
+		<div id="entireTriviaContents">		
 			<div class="row">
 				<div id="nextQuestion" class="center-block col-sm-12 text-center">
 					<h2>Question</h2>
 				</div>
 			</div>
+
 			
 			<form id="triviaForm">
 				<div class="row">
@@ -84,64 +91,94 @@ Don't forget to include a countdown timer. -->
 			var $optionTwo = $("#optionTwo");
 			var $optionThree = $("#optionThree");
 			var $optionFour = $("#optionFour");
+			var $hiddenStuff = $("#hiddenStuff");
 
 			var correctAnswer = "";
-			var userGuess = " ";
+			var userGuess = "";
 			var answerText = "";
-			var checkIfCorrect = false;
-			var questionNumber = 0;
-			var totalQuestions = 2;
+			var questionNumber = 4;
 			var questionsCorrect = 0;
 			var questionsIncorrect = 0;
-			var timerCount = 15;
+			var timerCount = 20;
+			var timerResetValue = 20;
 			var intervalID;
-			var questionCounter = 1;
+			var questionCounter = 0;
 
 			var questionArray = [
 				
 				{	"Option" : 1,
 					"Answer" : "A",
-					"OptionOne" : "Testing 1",
-					"OptionTwo" : "Testing 2",
-					"OptionThree" : "Testing 3",
-					"OptionFour" : "Testing 4",
-					"Question" : "What is something cool?",
-					"AnswerText" : "I am the first right answer"}
+					"OptionOne" : "He eats Gillyweed",
+					"OptionTwo" : "He transfigures into a shark",
+					"OptionThree" : "He performs a bubble-head charm",
+					"OptionFour" : "He kisses a mermaid",
+					"Question" : "How does Harry manage to breathe underwater during the second task of the Triwizard Tournament?",
+					"AnswerText" : "The correct answer was: A. He eats Gillyweed"}
 				,
 
 				{	"Option" : 2,
 					"Answer" : "B",
-					"OptionOne" : "Testing 11",
-					"OptionTwo" : "Testing 22",
-					"OptionThree" : "Testing 33",
-					"OptionFour" : "Testing 44",					
-					"Question" : "What is something else cool?",
-					"AnswerText" : "I am the second right answer"}
+					"OptionOne" : "Avada Kedavra",
+					"OptionTwo" : "Sectumsempra",
+					"OptionThree" : "Cruciatus Curse",
+					"OptionFour" : "Imperius Curse",					
+					"Question" : "Which of these is NOT one of the Unforgivable Curses?",
+					"AnswerText" : "The correct answer was: B. Sectumsempra is not one of the Unforgivable Curses"}
+				,
+
+				{	"Option" : 3,
+					"Answer" : "D",
+					"OptionOne" : "The Grey Lady",
+					"OptionTwo" : "The Fat Friar",
+					"OptionThree" : "The Bloody Baron",
+					"OptionFour" : "The Fat Lady",					
+					"Question" : "Who guards the entrance to the Gryffindor common room?",
+					"AnswerText" : "The correct answer was: D. The Fat Lady guards the entrance to the Gryffindor common room"}	
+				,
+
+				{	"Option" : 4,
+					"Answer" : "B",
+					"OptionOne" : "Mad-Eye Moody",
+					"OptionTwo" : "Cornelius Fudge",
+					"OptionThree" : "Professor Snape",
+					"OptionFour" : "Remus Lupin",					
+					"Question" : "Who is NOT a member of the Order of the Phoenix?",
+					"AnswerText" : "The correct answer was: B. Cornelius Fudge is NOT a member of the Order of the Phoenix"}										
 
 			];
 
 			function getNewQuestion(){
 
+				$("#entireTriviaContents").css('display', 'block');
+				
 				$triviaForm.each(function(){
 					this.reset();
-				});
+				});				
+
+				if (questionCounter < questionNumber){
+
+				//clear form contents for new question
+
 
 				userGuess = "";
 
-				questionNumber = Math.floor(Math.random() * totalQuestions + 1);				
-				for (var i  = 0; i < totalQuestions; i++){
-					if (questionNumber === questionArray[i].Option){
-						$nextQuestion.html("<h2>" + questionArray[i].Question + "</h2>");
-						console.log(questionArray[i]);
-						correctAnswer = questionArray[i].Answer;
-						answerText = questionArray[i].AnswerText;
-						$optionOne.html(questionArray[i].OptionOne);
-						$optionTwo.html(questionArray[i].OptionTwo);
-						$optionThree.html(questionArray[i].OptionThree);
-						$optionFour.html(questionArray[i].OptionFour);
-						// console.log("Correct: " + correctAnswer);
-					}
-				}
+				$nextQuestion.html("<h2>" + questionArray[questionCounter].Question + "</h2>");
+				$questionCounter.html("<h2>Question " + questionArray[questionCounter].Option + "</h2");
+				console.log(questionArray[questionCounter]);
+				correctAnswer = questionArray[questionCounter].Answer;
+				answerText = questionArray[questionCounter].AnswerText;
+				$optionOne.html(questionArray[questionCounter].OptionOne);
+				$optionTwo.html(questionArray[questionCounter].OptionTwo);
+				$optionThree.html(questionArray[questionCounter].OptionThree);
+				$optionFour.html(questionArray[questionCounter].OptionFour);
+			}
+			    else if (questionCounter === questionNumber)
+			    	{
+			    	stopTimer();
+			    	$("#entireTriviaContents").css('display', 'none');
+			    	// alert("Game Over!");
+			    	informationScreen();
+			    	}			
 			}
 
 			function timerCountDown(){
@@ -150,9 +187,11 @@ Don't forget to include a countdown timer. -->
 
 			function decrement() {
 
+				if (questionCounter < questionNumber){
+
 				timerCount -- ;
 
-				$("#timer").html("<h2>" + timerCount + " Seconds</h2>");
+				$("#timer").html("<h2>Time Remaining: " + timerCount + " Seconds</h2>");
 
 				if (timerCount === 0) {
 
@@ -164,61 +203,89 @@ Don't forget to include a countdown timer. -->
 					console.log("Questions Correct: " + questionsCorrect);
 					console.log("Questions Incorrect: " + questionsIncorrect);					
 					questionCounter += 1;
-					$questionCounter.html("<h2>Question " + questionCounter + "</h2");
 					getNewQuestion();
-					timerCount = 15;
+					timerCount = timerResetValue;
 					timerCountDown();
 			      
 			      }
-
+			  }
+			  else if (questionCounter === questionNumber){
+			  	stopTimer();
+			  }
+			   
 			}
 
 			function stopTimer(){
 				clearInterval(intervalID);			
 
 			}
+			function informationScreen(){
+
+				$("#entireTriviaContents").css('display', 'none');
+				$hiddenStuff.css('display', 'block');
+				
+				$hiddenStuff.prepend("<h3>Game Over!</h3>");
+				$hiddenStuff.append("<br>Correct Answers: " + questionsCorrect +
+					"<br>Incorrect Answers: " + questionsIncorrect);
+				
+				var a = $("<button> Reset </button>");
+				a.addClass("reset btn btn-lg btn-danger center-block");
+				$hiddenStuff.append(a);
+
+				$(".reset").on('click', function(){
+					event.preventDefault();
+					$("#entireTriviaContents").css('display', 'block');
+					correctAnswer = "";
+					userGuess = "";
+					answerText = "";
+					questionsCorrect = 0;
+					questionsIncorrect = 0;
+					timerCount = 20;
+					questionCounter = 0;
+					$hiddenStuff.css('display', 'none');
+					$showResults.empty();
+					getNewQuestion();
+					timerCountDown();
+			});
+
+			}
 
 			getNewQuestion();
 			timerCountDown();
 
-				$submitButton.on('click', function(){
+
+
+			$submitButton.on('click', function(){
+				
+					event.preventDefault();									
+					userGuess = ($(".option:checked").val());
 					
-						event.preventDefault();				
-						
-						userGuess = ($(".option:checked").val());
-						
-						if (userGuess !== undefined){
+					if (userGuess !== undefined){
 							
-							console.log("Question Number: " + questionCounter);
-							console.log("User Input: " + userGuess);
-							console.log("Correct Answer: " + correctAnswer);
+						console.log("Question Number: " + questionCounter);
+						console.log("User Input: " + userGuess);
+						console.log("Correct Answer: " + correctAnswer);
 
-							if (correctAnswer === userGuess){
-								questionsCorrect += 1;
-								questionCounter += 1;
-								$questionCounter.html("<h2>Question " + questionCounter + "</h2");
-								$showResults.html("Correct!");
-								stopTimer();
+						if (correctAnswer === userGuess){
+							questionsCorrect += 1;
+							questionCounter += 1;
+							$showResults.html("You got it!! " + answerText);
+							stopTimer();			
 							}
 
-							else{
-								questionsIncorrect += 1;
-								questionCounter += 1;
-								$questionCounter.html("<h2>Question " + questionCounter + "</h2");
-								$showResults.html("Nope! The correct answer was " + answerText);
-								stopTimer();	
+						else{
+							questionsIncorrect += 1;
+							questionCounter += 1;
+							$showResults.html("Nope! " + answerText);
+							stopTimer();	
 							}
 
-							console.log("Questions Correct: " + questionsCorrect);
-							console.log("Questions Incorrect: " + questionsIncorrect);
-							timerCount = 15;
-							getNewQuestion();
-							timerCountDown();
-			
-						
-						// timerCount = 15;
-						// getNewQuestion();
-						// timerCountDown();
+						console.log("Questions Correct: " + questionsCorrect);
+						console.log("Questions Incorrect: " + questionsIncorrect);
+						timerCount = timerResetValue;
+						// informationScreen();
+						getNewQuestion();
+						timerCountDown();
 
 
 				}
